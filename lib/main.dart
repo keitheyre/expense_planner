@@ -1,6 +1,7 @@
 import 'package:expense_planner/transaction.dart';
 import 'package:flutter/material.dart';
 import './transaction.dart';
+import 'package:intl/intl.dart';
 
 void main() => runApp(MyApp());
 
@@ -71,15 +72,14 @@ class MyHomePage extends StatelessWidget {
                       Text(
                         transaction.title,
                         style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black,
-                          fontSize: 26
-                        ),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black,
+                            fontSize: 26),
                       ),
                       Text(
-                        transaction.date.toString(),
+                        DateFormat("dd MMM y").format(transaction.date,),
                         style: TextStyle(
-                          fontSize: 12,
+                          fontSize: 14,
                           color: Colors.grey,
                         ),
                       ),
