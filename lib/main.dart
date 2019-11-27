@@ -49,7 +49,7 @@ class MyHomePage extends StatelessWidget {
                   Container(
                     margin: EdgeInsets.all(20),
                     child: Text(
-                      transaction.amount.toString(),
+                      "\$${transaction.amount}",
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 20,
@@ -73,7 +73,7 @@ class MyHomePage extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.black,
-                          fontSize: 30
+                          fontSize: 26
                         ),
                       ),
                       Text(
