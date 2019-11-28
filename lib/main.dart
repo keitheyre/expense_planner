@@ -1,8 +1,5 @@
-import 'package:expense_planner/widgets/user_transactions.dart';
-
-import './widgets/new_transaction.dart';
-import './widgets/transaction_list.dart';
 import 'package:flutter/material.dart';
+import 'package:expense_planner/widgets/user_transactions.dart';
 
 void main() => runApp(MyApp());
 
@@ -16,8 +13,6 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-// String title;
-// String amount;
 
 class MyHomePage extends StatelessWidget {
   @override
@@ -27,7 +22,6 @@ class MyHomePage extends StatelessWidget {
         title: Text("Expense App"),
       ),
       body: ListView(
-        //mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Container(
             width: double.infinity,

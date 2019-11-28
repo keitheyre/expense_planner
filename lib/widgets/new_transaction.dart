@@ -18,16 +18,10 @@ class NewTransaction extends StatelessWidget {
           children: <Widget>[
             TextField(
               decoration: InputDecoration(labelText: "Title"),
-              // onChanged: (titleInput) {
-              //   title = titleInput;
-              // },
               controller: titleController,
             ),
             TextField(
               decoration: InputDecoration(labelText: "Amount"),
-              // onChanged: (amountInput) {
-              //   amount = amountInput;
-              // },
               controller: amountController,
             ),
             FlatButton(
