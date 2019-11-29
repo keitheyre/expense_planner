@@ -66,6 +66,9 @@ flutter:
         - asset: assets/fonts/Quicksand-Regular.ttf
         - asset: assets/fonts/Quicksand-Bold.ttf
           weight: 700
+    - family: SansIAm
+      fonts:
+        - asset: assets/fonts/SansIAm-24vd.ttf
   #   - family: Trajan Pro
   #     fonts:
   #       - asset: fonts/TrajanPro.ttf
