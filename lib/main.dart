@@ -15,9 +15,10 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         title: 'Expense App',
         home: MyHomePage(),
+        //* Theme the entire app from here
         theme: ThemeData(
-          primarySwatch: Colors.purple,
-          accentColor: Colors.amber,
+          primarySwatch: Colors.green,
+          accentColor: Colors.purple,
           fontFamily: "Quicksand",
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -44,20 +45,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   title: "New shoes",
-    //   date: DateTime.now(),
-    //   id: "t1",
-    //   amount: 99.00,
-    // ),
-    // Transaction(
-    //   title: "New shoes",
-    //   date: DateTime.now(),
-    //   id: "t1",
-    //   amount: 99.00,
-    // ),
-  ];
+  final List<Transaction> _transactions = [];
 
   //Return a list of transations where the date is within the last 7 days, also convert Iterable to List
   List<Transaction> get _recentTransactions {
@@ -97,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Expense App"),
+        centerTitle: true,
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
