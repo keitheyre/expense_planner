@@ -17,8 +17,8 @@ class MyApp extends StatelessWidget {
         home: MyHomePage(),
         //* Theme the entire app from here
         theme: ThemeData(
-          primarySwatch: Colors.green,
-          accentColor: Colors.purple,
+          primarySwatch: Colors.cyan,
+          accentColor: Colors.yellow,
           fontFamily: "Quicksand",
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -89,6 +89,7 @@ class _MyHomePageState extends State<MyHomePage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.add),
+            color: Colors.white,
             onPressed: () => _startAddNewTransaction(context),
           ),
         ],
