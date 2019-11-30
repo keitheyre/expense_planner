@@ -10,7 +10,7 @@ class TransactionList extends StatelessWidget {
   TransactionList(this.transactions, this.deleteTX);
 
   @override
-  Widget build(BuildContext context) {    
+  Widget build(BuildContext context) {
     return Container(
       child: transactions.isEmpty
           ? LayoutBuilder(builder: (ctx, constraints) {
@@ -41,11 +41,18 @@ class TransactionList extends StatelessWidget {
                     horizontal: 10,
                   ),
                   child: ListTile(
-                    trailing: IconButton(
-                      icon: Icon(Icons.delete),
-                      color: Theme.of(context).errorColor,
-                      onPressed: () => deleteTX(transactions[index].id),
-                    ),
+                    trailing: MediaQuery.of(context).size.width > 460
+                        ? FlatButton.icon(
+                            textColor: Theme.of(context).errorColor,
+                            icon: Icon(Icons.delete),
+                            label: Text("Delete"),
+                            onPressed: () => deleteTX(transactions[index].id),
+                          )
+                        : IconButton(
+                            icon: Icon(Icons.delete),
+                            color: Theme.of(context).errorColor,
+                            onPressed: () => deleteTX(transactions[index].id),
+                          ),
                     leading: CircleAvatar(
                       backgroundColor: Theme.of(context).primaryColor,
                       radius: 30,
