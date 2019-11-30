@@ -58,14 +58,14 @@ class _MyHomePageState extends State<MyHomePage> {
           Duration(days: 7),
         ),
       );
-    }).toList();
+    }).toList().reversed.toList();
   }
 
-  void _addNewTransaction(String titleInput, double amountInput) {
+  void _addNewTransaction(String titleInput, double amountInput, DateTime choosenDate) {
     final newTransaction = Transaction(
       title: titleInput,
       amount: amountInput,
-      date: DateTime.now(),
+      date: choosenDate,
       id: DateTime.now().toString(),
     );
 

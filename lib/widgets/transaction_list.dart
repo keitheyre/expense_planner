@@ -48,7 +48,8 @@ class TransactionList extends StatelessWidget {
                           child: Text(
                             "€${transactions[index].amount}",
                             style: TextStyle(
-                              color: Colors.black,
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
                             ),
                           ),
                         ),

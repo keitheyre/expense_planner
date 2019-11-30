@@ -19,13 +19,14 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = titleController.text;
     final enteredAmount = double.parse(amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0 || selectedDate == null) {
       return;
     }
 
     widget.newTransactionOnClick(
       enteredTitle,
       enteredAmount,
+      selectedDate,
     );
 
     Navigator.of(context).pop();
@@ -73,11 +74,13 @@ class _NewTransactionState extends State<NewTransaction> {
               height: 60,
               child: Row(
                 children: <Widget>[
-                  Text(
-                    selectedDate == null
-                        ? "No Date chosen"
-                        : DateFormat.yMMMd().format(selectedDate),
-                    style: Theme.of(context).textTheme.subtitle,
+                  Expanded(
+                                      child: Text(
+                      selectedDate == null
+                          ? "No Date chosen"
+                          : DateFormat.yMMMd().format(selectedDate),
+                      style: Theme.of(context).textTheme.subtitle,
+                    ),
                   ),
                   FlatButton(
                     child: Text(
