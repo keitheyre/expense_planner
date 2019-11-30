@@ -1,12 +1,21 @@
 import 'package:expense_planner/widgets/chart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
 
 import 'models/transaction.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+  // SystemChrome.setPreferredOrientations(
+  //   [
+  //     DeviceOrientation.portraitUp,
+  //     DeviceOrientation.portraitUp,
+  //   ],
+  // );
+}
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
@@ -18,7 +27,7 @@ class MyApp extends StatelessWidget {
         //* Theme the entire app from here
         theme: ThemeData(
           primarySwatch: Colors.green,
-          accentColor: Colors.yellow,
+          accentColor: Colors.blueAccent,
           errorColor: Colors.red,
           fontFamily: "Quicksand",
           textTheme: ThemeData.light().textTheme.copyWith(
@@ -50,6 +59,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final List<Transaction> _transactions = [];
+  bool showChart = false;
 
   //Return a list of transations where the date is within the last 7 days, also convert Iterable to List
   List<Transaction> get _recentTransactions {
@@ -97,6 +107,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isLandscape =
+        (MediaQuery.of(context).orientation == Orientation.landscape);
+
     final appBar = AppBar(
       title: Text("Expense App"),
       centerTitle: true,
@@ -109,24 +122,52 @@ class _MyHomePageState extends State<MyHomePage> {
       ],
     );
 
+    final transactionsList = Container(
+      height: (MediaQuery.of(context).size.height -
+              appBar.preferredSize.height -
+              MediaQuery.of(context).padding.top) *
+          0.7,
+      child: TransactionList(_transactions, _deleteTransaction),
+    );
     return Scaffold(
       appBar: appBar,
       body: ListView(
         children: <Widget>[
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.3,
-            child: Chart(_recentTransactions),
-          ),
-          Container(
-            height: (MediaQuery.of(context).size.height -
-                    appBar.preferredSize.height -
-                    MediaQuery.of(context).padding.top) *
-                0.7,
-            child: TransactionList(_transactions, _deleteTransaction),
-          ),
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Show Chart"),
+                Switch(
+                  value: showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      showChart = value;
+                      print("Showing: " + showChart.toString());
+                    });
+                  },
+                ),
+              ],
+            ),
+          if (!isLandscape)
+            Container(
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.3,
+              child: Chart(_recentTransactions),
+            ),
+          if (!isLandscape) transactionsList,
+          if (isLandscape)
+            showChart
+                ? Container(
+                    height: (MediaQuery.of(context).size.height -
+                            appBar.preferredSize.height -
+                            MediaQuery.of(context).padding.top) *
+                        0.6,
+                    child: Chart(_recentTransactions),
+                  )
+                : transactionsList
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
