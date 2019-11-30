@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
           accentColor: Colors.yellow,
+          errorColor: Colors.red,
           fontFamily: "Quicksand",
           textTheme: ThemeData.light().textTheme.copyWith(
                 title: TextStyle(
@@ -52,16 +53,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //Return a list of transations where the date is within the last 7 days, also convert Iterable to List
   List<Transaction> get _recentTransactions {
-    return _transactions.where((item) {
-      return item.date.isAfter(
-        DateTime.now().subtract(
-          Duration(days: 7),
-        ),
-      );
-    }).toList().reversed.toList();
+    return _transactions
+        .where((item) {
+          return item.date.isAfter(
+            DateTime.now().subtract(
+              Duration(days: 7),
+            ),
+          );
+        })
+        .toList()
+        .reversed
+        .toList();
   }
 
-  void _addNewTransaction(String titleInput, double amountInput, DateTime choosenDate) {
+  void _addNewTransaction(
+      String titleInput, double amountInput, DateTime choosenDate) {
     final newTransaction = Transaction(
       title: titleInput,
       amount: amountInput,
@@ -71,6 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
     setState(() {
       _transactions.add(newTransaction);
+    });
+  }
+
+  void _deleteTransaction(String transactionId) {
+    setState(() {
+      _transactions.removeWhere((tx) => tx.id == transactionId);
     });
   }
 
@@ -100,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: ListView(
         children: <Widget>[
           Chart(_recentTransactions),
-          TransactionList(_transactions),
+          TransactionList(_transactions, _deleteTransaction),
         ],
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,

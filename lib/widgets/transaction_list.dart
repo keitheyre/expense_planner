@@ -5,8 +5,9 @@ import 'package:expense_planner/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function deleteTX;
 
-  TransactionList(this.transactions);
+  TransactionList(this.transactions, this.deleteTX);
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +40,11 @@ class TransactionList extends StatelessWidget {
                     horizontal: 10,
                   ),
                   child: ListTile(
+                    trailing: IconButton(
+                      icon: Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => deleteTX(transactions[index].id),
+                    ),
                     leading: CircleAvatar(
                       backgroundColor: Theme.of(context).primaryColor,
                       radius: 30,
