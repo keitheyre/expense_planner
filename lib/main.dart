@@ -146,45 +146,47 @@ class _MyHomePageState extends State<MyHomePage> {
           0.7,
       child: TransactionList(_transactions, _deleteTransaction),
     );
-    final pageBody = ListView(
-      children: <Widget>[
-        if (isLandscape)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Text("Show Chart"),
-              Switch.adaptive(
-                activeColor: Theme.of(context).accentColor,
-                value: showChart,
-                onChanged: (value) {
-                  setState(() {
-                    showChart = value;
-                    print("Showing: " + showChart.toString());
-                  });
-                },
-              ),
-            ],
-          ),
-        if (!isLandscape)
-          Container(
-            height: (mediaQuery.size.height -
-                    appBar.preferredSize.height -
-                    mediaQuery.padding.top) *
-                0.3,
-            child: Chart(_recentTransactions),
-          ),
-        if (!isLandscape) transactionsList,
-        if (isLandscape)
-          showChart
-              ? Container(
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      0.6,
-                  child: Chart(_recentTransactions),
-                )
-              : transactionsList
-      ],
+    final pageBody = SafeArea(
+      child: ListView(
+        children: <Widget>[
+          if (isLandscape)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text("Show Chart"),
+                Switch.adaptive(
+                  activeColor: Theme.of(context).accentColor,
+                  value: showChart,
+                  onChanged: (value) {
+                    setState(() {
+                      showChart = value;
+                      print("Showing: " + showChart.toString());
+                    });
+                  },
+                ),
+              ],
+            ),
+          if (!isLandscape)
+            Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.3,
+              child: Chart(_recentTransactions),
+            ),
+          if (!isLandscape) transactionsList,
+          if (isLandscape)
+            showChart
+                ? Container(
+                    height: (mediaQuery.size.height -
+                            appBar.preferredSize.height -
+                            mediaQuery.padding.top) *
+                        0.6,
+                    child: Chart(_recentTransactions),
+                  )
+                : transactionsList
+        ],
+      ),
     );
     return Platform.isIOS
         ? CupertinoPageScaffold(
