@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:expense_planner/widgets/adaptive_flat_button.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -66,19 +67,32 @@ class _NewTransactionState extends State<NewTransaction> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
-              TextField(
-                decoration: InputDecoration(labelText: "Title"),
-                controller: titleController,
-                keyboardType: TextInputType.text,
-              ),
-              TextField(
-                decoration: InputDecoration(labelText: "Amount"),
-                controller: amountController,
-                keyboardType: TextInputType.numberWithOptions(
-                  decimal: true,
-                ),
-                onSubmitted: (_) => _submitData(),
-              ),
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      placeholder: "Title",
+                      controller: titleController,
+                      keyboardType: TextInputType.text,
+                    )
+                  : TextField(
+                      decoration: InputDecoration(labelText: "Title"),
+                      controller: titleController,
+                      keyboardType: TextInputType.text,
+                    ),
+              Platform.isIOS
+                  ? CupertinoTextField(
+                      placeholder: "Amount",
+                      controller: amountController,
+                      keyboardType:
+                          TextInputType.numberWithOptions(decimal: true),
+                    )
+                  : TextField(
+                      decoration: InputDecoration(labelText: "Amount"),
+                      controller: amountController,
+                      keyboardType: TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      onSubmitted: (_) => _submitData(),
+                    ),
               Container(
                 height: 60,
                 child: Row(
@@ -91,15 +105,9 @@ class _NewTransactionState extends State<NewTransaction> {
                         style: Theme.of(context).textTheme.subtitle,
                       ),
                     ),
-                    FlatButton(
-                      child: Text(
-                        "Choose Date",
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      textColor: Theme.of(context).primaryColor,
-                      onPressed: _presentDatePicker,
+                    AdaptiveFlatButton(
+                      "Choose Date",
+                      _presentDatePicker,
                     ),
                   ],
                 ),
