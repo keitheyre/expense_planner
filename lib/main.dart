@@ -107,8 +107,61 @@ class _MyHomePageState extends State<MyHomePage> {
         });
   }
 
+  List<Widget> _buildLandscapeContent(
+    MediaQueryData mediaQuery,
+    PreferredSizeWidget appBar,
+    Widget transactionsList,
+  ) {
+    return [
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Text("Show Chart", style: Theme.of(context).textTheme.title),
+          Switch.adaptive(
+            activeColor: Theme.of(context).accentColor,
+            value: showChart,
+            onChanged: (value) {
+              setState(() {
+                showChart = value;
+                print("Showing: " + showChart.toString());
+              });
+            },
+          ),
+        ],
+      ),
+      showChart
+          ? Container(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  0.6,
+              child: Chart(_recentTransactions),
+            )
+          : transactionsList
+    ];
+  }
+
+  List<Widget> _buildPortraitContent(
+    MediaQueryData mediaQuery,
+    PreferredSizeWidget appBar,
+    Widget transactionsList,
+  ) {
+    return [
+      Container(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            0.3,
+        child: Chart(_recentTransactions),
+      ),
+      transactionsList,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("build() MyHomePageState");
+
     final bool isLandscape =
         (MediaQuery.of(context).orientation == Orientation.landscape);
 
@@ -116,23 +169,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
     final PreferredSizeWidget appBar = Platform.isIOS
         ? CupertinoNavigationBar(
-            middle: Text("Expense App"),
+            middle: const Text("Expense App"),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 GestureDetector(
-                  child: Icon(CupertinoIcons.add),
+                  child: const Icon(CupertinoIcons.add),
                   onTap: () => _startAddNewTransaction(context),
                 ),
               ],
             ),
           )
         : AppBar(
-            title: Text("Expense App"),
+            title: const Text("Expense App"),
             centerTitle: true,
             actions: <Widget>[
               IconButton(
-                icon: Icon(Icons.add),
+                icon: const Icon(Icons.add),
                 color: Colors.white,
                 onPressed: () => _startAddNewTransaction(context),
               ),
@@ -150,47 +203,23 @@ class _MyHomePageState extends State<MyHomePage> {
       child: ListView(
         children: <Widget>[
           if (isLandscape)
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text("Show Chart", style: Theme.of(context).textTheme.title),
-                Switch.adaptive(
-                  activeColor: Theme.of(context).accentColor,
-                  value: showChart,
-                  onChanged: (value) {
-                    setState(() {
-                      showChart = value;
-                      print("Showing: " + showChart.toString());
-                    });
-                  },
-                ),
-              ],
+            ..._buildLandscapeContent(
+              mediaQuery,
+              appBar,
+              transactionsList,
             ),
           if (!isLandscape)
-            Container(
-              height: (mediaQuery.size.height -
-                      appBar.preferredSize.height -
-                      mediaQuery.padding.top) *
-                  0.3,
-              child: Chart(_recentTransactions),
+            ..._buildPortraitContent(
+              mediaQuery,
+              appBar,
+              transactionsList,
             ),
-          if (!isLandscape) transactionsList,
-          if (isLandscape)
-            showChart
-                ? Container(
-                    height: (mediaQuery.size.height -
-                            appBar.preferredSize.height -
-                            mediaQuery.padding.top) *
-                        0.6,
-                    child: Chart(_recentTransactions),
-                  )
-                : transactionsList
         ],
       ),
     );
     return Platform.isIOS
         ? CupertinoPageScaffold(
-          navigationBar: appBar,
+            navigationBar: appBar,
             child: pageBody,
           )
         : Scaffold(

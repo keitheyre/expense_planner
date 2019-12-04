@@ -1,6 +1,6 @@
+import 'package:expense_planner/widgets/transaction_item.dart';
 import 'package:flutter/material.dart';
 
-import 'package:intl/intl.dart';
 import 'package:expense_planner/models/transaction.dart';
 
 class TransactionList extends StatelessWidget {
@@ -11,6 +11,7 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print("build() TransactionList");
     return Container(
       child: transactions.isEmpty
           ? LayoutBuilder(builder: (ctx, constraints) {
@@ -20,7 +21,7 @@ class TransactionList extends StatelessWidget {
                     "No Transactions added yet",
                     style: Theme.of(context).textTheme.title,
                   ),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   Container(
@@ -34,49 +35,9 @@ class TransactionList extends StatelessWidget {
             })
           : ListView.builder(
               itemBuilder: (context, index) {
-                return Card(
-                  elevation: 5,
-                  margin: EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 10,
-                  ),
-                  child: ListTile(
-                    trailing: MediaQuery.of(context).size.width > 460
-                        ? FlatButton.icon(
-                            textColor: Theme.of(context).errorColor,
-                            icon: Icon(Icons.delete),
-                            label: Text("Delete"),
-                            onPressed: () => deleteTX(transactions[index].id),
-                          )
-                        : IconButton(
-                            icon: Icon(Icons.delete),
-                            color: Theme.of(context).errorColor,
-                            onPressed: () => deleteTX(transactions[index].id),
-                          ),
-                    leading: CircleAvatar(
-                      backgroundColor: Theme.of(context).primaryColor,
-                      radius: 30,
-                      child: Padding(
-                        padding: EdgeInsets.all(6),
-                        child: FittedBox(
-                          child: Text(
-                            "€${transactions[index].amount}",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    title: Text(
-                      transactions[index].title,
-                      style: Theme.of(context).textTheme.title,
-                    ),
-                    subtitle: Text(
-                      DateFormat.yMMMd().format(transactions[index].date),
-                    ),
-                  ),
+                return TransactionItem(
+                  deleteTX: deleteTX,
+                  transaction: transactions[index],
                 );
               },
               itemCount: transactions.length,
